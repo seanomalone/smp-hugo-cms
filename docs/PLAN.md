@@ -9,6 +9,21 @@ _Last updated: 2026-09-13_
 
 ---
 
+## 0. Next session — start here
+
+Claude Code sessions have no memory of each other. If you are a new session, do this first:
+
+1. **Read this whole file.** It is the source of truth for the project.
+2. **Review the current site.** Fetch `https://seanmalone.com` and build a **content inventory**:
+   navigation structure, gallery names and groupings, services/pricing, testimonials, About copy.
+   Write the findings into §3 (Open questions) and §4 (Information architecture) and commit.
+3. **If the fetch is blocked** by the network egress proxy, the environment's allowlist has not been
+   updated yet — see §6.1. Ask Sean rather than guessing.
+
+**Immediate goal:** answer the open questions in §3 so the design/build phase can start.
+
+---
+
 ## 1. Goal
 
 Replace Sean Malone's photography portfolio site — currently on **Format** (format.com), served at
@@ -72,9 +87,32 @@ The site is a **working photographer's business site**, not just an art gallery:
 - **Text** (About, Pricing, Kudos copy) — copy-paste from the current Format site.
 - **Domain** — `seanmalone.com` registered at **GoDaddy**. Plan: external DNS pointing at the host; keep
   all existing records; change only apex A + `www` CNAME.
-- I (Claude, in this environment) **cannot reach the public site** — this environment's network egress policy
-  blocks general web traffic. Options: (a) recreate env with broader egress so I can fetch the public site,
-  (b) Sean describes the structure, or (c) skip it (redesign doesn't need the old design).
+### 6.1 Network egress / allowlist
+
+The Claude Code environment's **network access policy** blocks general web traffic by default (only package
+registries + Anthropic APIs). It is an **environment-level setting**, configured in the Claude Code web UI,
+read once at container startup — it cannot be changed from inside a running session, and requires starting a
+**new session** to take effect.
+
+To let Claude review the current site, set **Network access → custom allowlist** (not full access) with:
+
+```
+seanmalone.com
+www.seanmalone.com
+*.format.com
+```
+
+- `seanmalone.com` — page structure, nav, gallery names, copy (enough for a content inventory).
+- `*.format.com` — the CDN serving the Format site's CSS/JS/images; needed for rendered **screenshots**.
+  Exact Format asset hostnames are unconfirmed; if requests are still blocked, check the proxy failures
+  (`curl -sS "$HTTPS_PROXY/__agentproxy/status"`) and add the missing domains.
+
+Later, during the build phase, also consider allowlisting `fonts.googleapis.com` and `fonts.gstatic.com`
+for web fonts.
+
+**Note:** even with egress opened, Claude **cannot reach the Format admin account** — that requires Sean's
+login, which lives in his browser, not the container. Anything behind the Format login must be exported
+by Sean.
 
 ## 7. Explicitly out of scope / separate projects
 
