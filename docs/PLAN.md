@@ -1,6 +1,6 @@
 # seanmalone.com — Portfolio Rebuild Plan
 
-> **Status:** v0.2 — living document. This is the source of truth for the project vision and decisions.
+> **Status:** v0.3 — living document. This is the source of truth for the project vision and decisions.
 > Because Claude Code sessions are ephemeral (no memory between sessions), this file is how we preserve
 > alignment. Update it as decisions are made. Anyone — or any future session — should be able to read this
 > file and know exactly where the project stands.
@@ -15,8 +15,8 @@ Claude Code sessions have no memory of each other. If you are a new session, do 
 
 1. **Read this whole file.** It is the source of truth for the project.
 2. **Check §4 (Open questions).** Those are the blockers for starting design/build.
-3. §3 holds the inventory of the **current Format site**, captured from screenshots Sean provided.
-   Pages still uncaptured: **Home, Portfolio/galleries, Pricing.**
+3. §3 holds a full inventory of the **current Format site**, captured from screenshots — including
+   the end-to-end user flow in §3.10. Read it before proposing any structure.
 4. If you need to fetch `https://seanmalone.com` directly and it is blocked by the network egress proxy,
    the environment allowlist has not been updated — see §7.1. Ask Sean rather than guessing.
 
@@ -53,8 +53,8 @@ The site is a **working photographer's business site**, not just an art gallery:
 
 ## 3. Current site inventory
 
-Captured 2026-09-14 from screenshots Sean provided. **Pages captured:** Contact, Kudos, About, FAQs.
-**Still needed:** Home, Portfolio/galleries, Pricing.
+Captured 2026-09-14 from screenshots Sean provided. **Pages captured:** Home, category/portfolio
+page, booking page, Contact, Kudos, About, FAQs — i.e. the complete public site.
 
 > ⚠️ Sean has said **some current services will NOT carry over** to the new site. Do not assume the
 > service list below is the target list — confirm first (§4.2).
@@ -100,10 +100,12 @@ Captured 2026-09-14 from screenshots Sean provided. **Pages captured:** Contact,
 - **Rebuild note:** much of this presumes the **proofing-gallery ordering flow**, which now lives in
   Pixieset. Decide what stays as on-site copy vs. what links out (§4.5).
 
-### 3.5 Services implied by current content
-Families · weddings · portraits/headshots · children · **senior portraits** · **events** ·
-**commercial/corporate** (product and non-product). Corporate clients shown: Yelp, Cibo, Unity,
-Paper Culture. — **To be pruned by Sean (§4.2).**
+### 3.5 Services / categories implied by current content
+From the FAQ copy: families · weddings · portraits/headshots · children · **senior portraits** ·
+**events** · **commercial/corporate** (product and non-product).
+From the homepage grid: **Portrait**, **Wedding**, **interiors/real-estate**, plus landscape and
+detail tiles below the fold. Corporate clients shown: Yelp, Cibo, Unity, Paper Culture.
+**Full category list still needed, and Sean is pruning some (§4.2).**
 
 ### 3.6 Design observations (current Format site)
 - Essentially a **default Format template**: white ground, dark-gray humanist sans, generous whitespace.
@@ -114,29 +116,106 @@ Paper Culture. — **To be pruned by Sean (§4.2).**
 - **Takeaway:** the *writing* is genuinely good and personal; the *presentation* is generic and
   inconsistent. A clean redesign has a lot of room to add craft without touching the voice.
 
+### 3.7 Homepage — category grid
+
+- **Nav (only 3 items):** `Portfolios` · `Pricing & Info` · `About/Contact`, left-aligned.
+  Centered serif wordmark **"Sean Malone, Photographer"**. Right: **Instagram** + **share** icons.
+- **Body:** a full-bleed **3-column image grid** of category tiles, edge to edge, no page gutter.
+- **Interaction:** hovering a tile reveals the **category name** overlaid in white italic serif
+  (e.g. *Portrait*). Clicking opens that category's portfolio page.
+- Visible tiles (row 1): **Portrait**, an **interior / real-estate** shot, a **wedding** couple.
+  Row 2 (partially visible): a landscape/hillside, a dark bokeh frame, a garment/detail shot.
+- Footer: "Using Format" badge.
+
+### 3.8 Category page — e.g. `/portrait`
+
+Two-column split: **text rail on the left, horizontally-scrolling gallery on the right.**
+
+- Large sans heading (**"Portraits"**), then:
+  - *"Swipe right for gallery —>"*
+  - *"**Check dates & times** to book a session, and read 'how it works'."* (links to booking page)
+  - *"Session are typically 60-90 minutes. We shoot on location in the San Francisco Bay Area
+    (**contact me** for travel options)."*  ← typo: "Session are" → "Sessions are"
+  - *"**Pricing:** $200 for the session + $300 per image you choose, or $2,000 for the entire
+    gallery (**full detail**)."*
+  - *"You'll get 50+ images to choose from. Print anywhere or order archival quality right from
+    your gallery."*
+- **Gallery:** full-height images that scroll **horizontally**; many more images off-screen right.
+- **Rebuild note:** pricing is stated **per category**, and again on the booking page — a single
+  source of truth in frontmatter/data would keep them in sync (§6).
+- **Design fork:** the page has to *tell* users "Swipe right for gallery —>", which is evidence the
+  affordance isn't self-evident. Horizontal scroll is natural on touch, often confusing on desktop.
+  Decide: keep horizontal, switch to vertical justified/masonry + lightbox, or hybrid (§4.4).
+
+### 3.9 Booking page — "Book a Session"
+
+- Subtitle: *"On-Location San Francisco Bay Area Portraits"*.
+- **Embedded SavvyCal widget**: Sean's avatar, **"Portrait Session"**, **1 hr 30 min**, location **TBD**,
+  **$200.00**, blurb *"Order processed, high-res images a la carte, or the whole session, directly
+  through your online gallery ($300ea or $2,000 for all)."* Calendar + Pacific Time zone selector.
+  → **Payment is collected at booking.**
+- **"How it works"** — a three-column Q&A block:
+  - **Pricing?** — $200/person session fee. Images (high-res, processed/edited) **$300 ea**, or
+    **$2,000** for the whole collection of selects (**30–60** of the ~hundred shot).
+  - **How does it work?** — book via the form; give address/area or TBD. $200 confirms date & time;
+    confirmation email is replyable. Sean arrives on/before time and scouts nearby settings.
+    Hair/makeup ready.
+  - **How long is a session?** — reserves **90 minutes**; can run longer or as short as 20 min.
+  - **How many outfits?** — a "look" = outfit + setting. No limit; most plan **2–3**.
+  - **After the session?** — edited and posted to the client's **online gallery within a week**;
+    order digitals or prints directly.
+  - **Schedule changes?** — reschedule via the confirmation-email link, **24+ hours** ahead.
+    Cancelling inside 24 hours forfeits the session fee.
+  - **Next step / Questions?** — points back to the calendar and the portrait portfolio.
+    ← typo: "brows my portfolio" → "browse"; "A cancellations forfeits" → "A cancellation forfeits"
+- **Rebuild note:** this "How it works" block **substantially duplicates** the separate
+  *FAQs about Sessions* page (§3.4) — session length, what's included, digitals, prints. Consolidate
+  to one source (§4.5).
+
+### 3.10 User flow (as built today)
+
+```
+Homepage grid  →  hover reveals category  →  click
+      ↓
+Category page (/portrait)  →  text rail + horizontal gallery  →  click "Check dates & times"
+      ↓
+Book a Session  →  SavvyCal embed (schedule + $200 payment)  →  confirmation email
+      ↓
+Client online gallery (Pixieset)  →  order digitals / prints
+```
+
 ## 4. Open questions (need Sean's input)
 
-1. **Portfolio structure** — screenshots of **Home, Portfolio/galleries, and Pricing** are still needed.
-   What are the gallery groupings and their names?
-2. **Service pruning** — *which current services are being dropped* from the new site? (See §3.5.)
-3. **Scale** — roughly how many galleries, total image count, and size of the largest gallery?
-   (Drives image pipeline + whether pagination/lazy-loading is needed.)
-4. **Design vision** — desired feeling (minimal / editorial / dramatic / warm / moody) + 1–3 reference
-   sites Sean admires. _(Sean to gather inspiration.)_
-5. **Prints & ordering** — how much of the FAQ print/framing/ordering content stays on-site vs. links
-   out to Pixieset?
-6. **Newsletter** — keep the opt-in? If so, which provider (drives the form integration)?
-7. **Brand elements** — existing logo, typeface, colors to carry over? Or design fresh?
+1. **Full category list** — what are all the homepage grid categories, in order?
+2. **Service pruning** — which categories/services are being **dropped** from the new site?
+   (Cascades into pricing, FAQ, and the homepage grid.)
+3. **Scale** — how many categories, total image count, and size of the largest gallery?
+   (Drives the image pipeline and whether pagination/lazy-loading is needed.)
+4. **Gallery interaction** — keep the **horizontal-scroll** gallery, move to a vertical
+   justified/masonry grid with lightbox, or a hybrid? (See §3.8.)
+5. **FAQ consolidation** — "How it works" (booking page) and "FAQs about Sessions" overlap heavily.
+   Merge into one source? What stays on-site vs. links out to Pixieset?
+6. **Pricing structure** — is pricing uniform across categories, or per-category? (Portraits is
+   $200 + $300/image or $2,000. Do weddings/commercial differ?)
+7. **Social proof placement** — testimonials and the Yelp/Cibo/Unity/Paper Culture logos are strong
+   but currently buried off-nav. Promote them (homepage strip? per-category?)?
+8. **Newsletter** — keep the opt-in? If so, which provider?
+9. **Design vision** — desired feeling (minimal / editorial / dramatic / warm / moody) + 1–3
+   reference sites. _(Sean to gather inspiration.)_
+10. **Brand elements** — the current serif wordmark and serif/sans pairing: carry over or redesign?
 
-## 5. Information architecture (draft)
+## 5. Information architecture
 
-- **Home** — hero image(s), a curated selection, clear entry into galleries + a CTA to inquire.
-- **Portfolio / Work** — the galleries (structure TBD pending §4.1).
-- **Pricing** — services & packages (TBD pending §4.1–4.2).
-- **FAQ** — session expectations (trimmed per §4.5).
-- **Kudos** — testimonials + corporate client logos.
-- **About** — bio + artist statement (strong existing copy).
-- **Contact / Inquiry** — native form (Netlify Forms), phone, email.
+Current nav is deliberately lean — **Portfolios · Pricing & Info · About/Contact** — and that
+restraint is worth preserving. Draft structure for the rebuild:
+
+- **Home** — full-bleed category grid with hover labels (keep the concept; §3.7).
+- **Portfolios** → one page per category — gallery + per-category session info and pricing (§3.8).
+- **Pricing & Info** — packages, "how it works", session FAQ (consolidated per §4.5).
+- **Book** — SavvyCal embed, reachable from every category page.
+- **About/Contact** — bio (strong existing copy) + native form, phone, email.
+- **Kudos** — testimonials + corporate logos. *Consider promoting into Home and/or category pages
+  rather than leaving it off-nav (§4.7).*
 
 ## 6. Content model (draft)
 
@@ -144,7 +223,10 @@ Paper Culture. — **To be pruned by Sean (§4.2).**
   description, cover image, and ordering. Adding a shoot = drop images in a folder, edit a few frontmatter
   lines, commit.
 - **Testimonials** and **corporate client logos** = data files (repeatable, reorderable).
-- **Pricing tiers** = data file or structured frontmatter, so packages render consistently.
+- **Pricing tiers** = data file or structured frontmatter. Critically, **each category owns its
+  pricing once** and it renders in every place that quotes it (category page, Pricing & Info,
+  booking blurb) — today those are hand-synced copies that can drift.
+- **Session FAQ / "how it works"** = one data file rendered wherever needed, not duplicated prose.
 - **About / FAQ** = simple markdown pages.
 - Hugo generates all responsive/optimized image variants at build time from originals.
 
@@ -156,7 +238,12 @@ Paper Culture. — **To be pruned by Sean (§4.2).**
   of it.
 - **Domain** — `seanmalone.com` registered at **GoDaddy**. Plan: external DNS pointing at the host; keep
   all existing records; change only apex A + `www` CNAME.
-- **Third-party dependencies to retire:** Wufoo (form), Format (hosting/branding).
+- **Third-party dependencies to retire:** Wufoo (contact form), Format (hosting/branding).
+- **Third-party dependencies to keep:** **SavvyCal** (booking + payment, embedded),
+  **Pixieset** (client galleries, ordering, fulfilment), **Instagram** (header link).
+- **Copy fixes to make during transcription:** "Session are typically" → "Sessions are";
+  "brows my portfolio" → "browse"; "A cancellations forfeits" → "A cancellation forfeits";
+  "extending into a high school a business" (missing word); "a family photos on a wall".
 
 ### 7.1 Network egress / allowlist
 
@@ -203,6 +290,12 @@ by Sean. Screenshots pasted into a session work fine as a substitute.
 
 ## 10. Changelog
 
+- **2026-09-14 — v0.3** — Added the core user flow from screenshots: homepage category grid (§3.7),
+  category page with horizontal gallery and inline pricing (§3.8), SavvyCal booking page and
+  "How it works" (§3.9), and the end-to-end flow diagram (§3.10). Identified duplication between the
+  booking page and the FAQ page, and pricing stated in multiple places — both become single-source
+  in the content model. Recorded real pricing ($200 session + $300/image or $2,000). Rewrote IA
+  around the actual three-item nav.
 - **2026-09-14 — v0.2** — Added §3 current-site inventory from screenshots (Contact, Kudos, About, FAQs):
   services, testimonials, corporate clients, locations, design observations. Expanded open questions
   (service pruning, prints/ordering scope, newsletter). Added FAQ to the IA.
